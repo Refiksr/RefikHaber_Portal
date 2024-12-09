@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using haberPortali1.Utility
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+
+{
+    <li class="nav-item dropdown" style="border: 1px solid #ccc; border-radius: 10px;">
+        <a class="btn custom-login-btn dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user"></i>@UserManager.GetUserName(User)
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" style="width: 100%;" aria-labelledby="userMenu">
+            @if (User.IsInRole(UserRoles.Role_Admin))
+            {
+                <li>
+                    <p style="font-size: 16px; margin-left: 8px;">Admin İşlemleri</p>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="HaberTuru" asp-action="Index">Kategoriler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item" asp-area="" asp-controller="Haber" asp-action="Index">Haber İşlemleri</a>
+                </li>
+                <p style="margin-left: 15px;">—</p>
+            }
+            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">Çıkış Yap</a></li>
+        </ul>
+    </li>
+}
+
+
+
+else
+
+
+
+{
+    <div class="d-flex align-items-center">
+        <a class="custom-login-btn me-2" asp-area="Identity" asp-page="/Account/Login">Giriş Yap</a>
+        <a class="custom-signup-btn" asp-area="Identity" asp-page="/Account/Register">Kayıt Ol</a>
+    </div>
+}
+</ul>
